@@ -1,0 +1,19 @@
+# This query searches for the US country, detailing some basic info, and then also fetches a full list of all global languages
+query {
+  country(code: "US") {
+    code,
+    name,
+    capital
+    native
+    continent {
+      name
+    }
+    languages {
+      code
+      name
+    }
+  }
+  languages {
+    name
+  }
+}
