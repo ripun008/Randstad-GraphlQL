@@ -1,19 +1,16 @@
-# This query searches for the US country, detailing some basic info, and then also fetches a full list of all global languages
+# This query shows countries in north american continent and lists their languages and currency
 query {
   country(code: "US") {
-    code,
-    name,
-    capital
-    native
     continent {
       name
+      countries {
+        name
+        languages {
+          name
+          code
+        }
+        currency
+      }
     }
-    languages {
-      code
-      name
-    }
-  }
-  languages {
-    name
   }
 }
