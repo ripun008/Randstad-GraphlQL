@@ -1,0 +1,32 @@
+type Query {
+    fantasyAuthors: [Authors]
+    books: [Book]
+    authors: [Author]
+}
+
+type Mutation {
+    addBook(
+        title: String!,
+        author: Author!,
+        genre: [String!]
+    ): Book
+}
+
+type Book {
+    isbn: ID
+    title: String! # Can't return null with !
+    author: Author
+    genre: [Genres!]! # This list can't be null AND it's elements can't be null
+}
+
+type Author {
+    name: String!
+    books: [Book]
+}
+
+enum Genres {
+    MYSTERY
+    HORROR
+    ROMANCE
+    NONFICTION
+}
