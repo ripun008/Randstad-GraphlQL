@@ -1,4 +1,6 @@
 var express = require('express')
+//var { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader')
+//var { loadSchema } = require('@graphql-tools/load')
 var { buildSchema } = require('graphql')
 var { createHandler } = require('graphql-http/lib/use/express')
 var { ruruHTML } = require('ruru/server')
@@ -17,7 +19,7 @@ var root = {
         return "Hello World!"
     },
     goodbye() {
-        return "Goodbye"
+        return "Good bye!"
     }
 }
 
