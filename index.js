@@ -1,42 +1,40 @@
-var express = require('express')
-//var { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader')
-//var { loadSchema } = require('@graphql-tools/load')
-var { buildSchema } = require('graphql')
-var { createHandler } = require('graphql-http/lib/use/express')
-var { ruruHTML } = require('ruru/server')
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { InMemoryLRUCache} from "@apollo/utils.keyvaluecache";
 
-// Construct a schema
-var schema = buildSchema(`
+import resolvers from './resolvers.js'
+
+const typeDefs = `#graphql
+    type Book {
+        title: String
+        author: String
+    }
     type Query {
-        hello: String
-        goodbye: String
+        books: [Book]
     }
-`)
-
-// Provide a root for all resolvers
-var root = {
-    hello() {
-        return "Hello World!"
+`;
+const books = [
+    {
+        title: "Fellowship of the Rings",
+        author: "J.R.R Tolkein"
     },
-    goodbye() {
-        return "Good bye!"
+    {
+        title: "The Hobbit",
+        author: "J.R.R Tolkein"
     }
-}
+]
 
-// Run GraphQL
-var app = express()
-app.all(
-    "/graphql",
-    createHandler({
-        schema: schema,
-        rootValue: root,
+const server = new ApolloServer({
+    typeDefs, 
+    resolvers,
+    cache: new InMemoryLRUCache({
+        ttl: 300,
+        maxSize: Math.pow(2, 20) * 100,
     })
-)
-
-app.get("/", (_req, res) => {
-    res.type("html")
-    res.end(ruruHTML({ endpoint: "/graphql" }))
 })
 
-app.listen(4000)
-console.log("Running GraphQL on port 4000")
+await startStandaloneServer(server, {
+    listen: { port: 4000 }
+})
+
+console.log("Server running at port 4000")
