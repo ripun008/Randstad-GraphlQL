@@ -19,5 +19,8 @@
     "graphql-http": "^1.22.1",
     "graphql-tools": "^9.0.1",
     "ruru": "^2.0.0-beta.11"
+  },
+  "devDependencies": {
+    "cypress": "^13.8.1"
   }
 }
